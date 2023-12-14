@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://hqsd1-110:9000/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZCDS_CN_QALS_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="ZCDS_BC_VH_LIFNRType" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Lifnr"/>
+                </Key>
+                <Property Name="Lifnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Account Number of Supplier"/>
+                <Property Name="Land1" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Country/Region Key"/>
+                <Property Name="Name1" Type="Edm.String" MaxLength="35" sap:label="Name" sap:quickinfo="Name 1"/>
+                <Property Name="Name2" Type="Edm.String" MaxLength="35" sap:label="Name 2"/>
+                <Property Name="Pstlz" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/>
+                <Property Name="Sortl" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Search term" sap:quickinfo="Sort field"/>
+                <Property Name="Mcod2" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Name 2" sap:quickinfo="Search term for matchcode search"/>
+                <Property Name="Mcod3" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="City" sap:quickinfo="Search term for matchcode search"/>
+                <Property Name="Loevm" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Deletion Flag" sap:quickinfo="Central Deletion Flag for Master Record"/>
+            </EntityType>
+            <EntityType Name="ZCDS_BC_VH_MEFType" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Code"/>
+                </Key>
+                <Property Name="Code" Type="Edm.Byte" Nullable="false" sap:label=""/>
+                <Property Name="Description" Type="Edm.String" sap:display-format="UpperCase" sap:label=""/>
+            </EntityType>
+            <EntityType Name="ZCDS_BC_VH_WERKType" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Werks"/>
+                </Key>
+                <Property Name="Werks" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+                <Property Name="Name1" Type="Edm.String" MaxLength="30" sap:label="Name 1" sap:quickinfo="Name"/>
+                <Property Name="Name2" Type="Edm.String" MaxLength="30" sap:label="Name 2"/>
+                <Property Name="Pstlz" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Postal Code"/>
+                <Property Name="Ort01" Type="Edm.String" MaxLength="25" sap:label="City"/>
+            </EntityType>
+            <EntityType Name="ZCDS_CN_QALSType" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="LotDeControle"/>
+                </Key>
+                <Property Name="LotDeControle" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="NonNegative" sap:label="Inspection Lot" sap:heading="" sap:quickinfo="Inspection Lot Number"/>
+                <Property Name="Article" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:heading="" sap:quickinfo="Material Number"/>
+                <Property Name="LotFournisseur" Type="Edm.String" MaxLength="70" sap:label="Characteristic Value" sap:heading=""/>
+                <Property Name="Lot" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Batch" sap:heading="" sap:quickinfo="Batch Number"/>
+                <Property Name="QteLotControle" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="UniteQteBase" sap:label="Insp. Lot Quantity" sap:quickinfo="Inspection Lot Quantity"/>
+                <Property Name="UniteQteBase" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:quickinfo="Base Unit of Measure for Inspection Lot Quantity" sap:semantics="unit-of-measure"/>
+                <Property Name="NomFournisseur" Type="Edm.String" MaxLength="40" sap:label="Name 1" sap:quickinfo="Name 1 of organization"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="40" sap:label="Object Short Text" sap:quickinfo="Short Text for Inspection Object"/>
+                <Property Name="NumArticleFournisseur" Type="Edm.String" MaxLength="35" sap:display-format="UpperCase" sap:label="Supplier Mat. No." sap:quickinfo="Material Number Used by Supplier"/>
+                <Property Name="DelaiRecepInspection" Type="Edm.Int32"/>
+                <Property Name="DelaiRecepCoA" Type="Edm.Int32"/>
+                <Property Name="DelaiAvisInitie" Type="Edm.Int32"/>
+                <Property Name="DelaiRecepDecition" Type="Edm.Int32"/>
+                <Property Name="Division" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant" sap:heading="" sap:value-list="standard"/>
+                <Property Name="DateDocument" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Document Date" sap:quickinfo="Document Date in Document"/>
+                <Property Name="DecisionUtiOrig" Type="Edm.String" MaxLength="254" sap:display-format="UpperCase" sap:label="Old Value" sap:quickinfo="Old Content of Changed Field"/>
+                <Property Name="DecisionUtiModif" Type="Edm.String" MaxLength="254" sap:display-format="UpperCase" sap:label="New Value" sap:quickinfo="New Content of Changed Field"/>
+                <Property Name="DateDecisionOrig" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="UD Code Date" sap:quickinfo="System Date When Usage Decision Was Recorded"/>
+                <Property Name="DateUtiModifiee" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="UD Code Date" sap:quickinfo="System Date When Usage Decision Was Recorded"/>
+                <Property Name="StatutRecepCoA" Type="Edm.String" MaxLength="12"/>
+                <Property Name="StatutStock" Type="Edm.String" MaxLength="19"/>
+                <Property Name="Utilisateur" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="UD Made By" sap:quickinfo="Person Who Made the Usage Decision"/>
+                <Property Name="DateLclCreationLot" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Lot Created" sap:quickinfo="Date in Time Zone Where Lot Created"/>
+                <Property Name="DebutControle" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Start of Inspection" sap:quickinfo="Start Date of Inspection in Local Time Zone"/>
+                <Property Name="FinControle" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="End of Inspection" sap:quickinfo="End Date of Inspection in Local Time Zone"/>
+                <Property Name="Fournisseur" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Supplier" sap:quickinfo="Vendor's account number" sap:value-list="standard"/>
+                <Property Name="Mef" Type="Edm.String" MaxLength="1" sap:label="" sap:value-list="standard"/>
+                <Property Name="CategorieClasse" Type="Edm.String" MaxLength="3" sap:label="" sap:value-list="standard"/>
+            </EntityType>
+            <EntityType Name="ZCDS_CT_VH_CATType" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Klart"/>
+                </Key>
+                <Property Name="Klart" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Class Type"/>
+                <Property Name="Artxt" Type="Edm.String" MaxLength="40" sap:label="Description" sap:quickinfo="Text describing class type"/>
+            </EntityType>
+            <EntityType Name="ZCDS_CT_VH_CLASSEType" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Kschg"/>
+                    <PropertyRef Name="Klart"/>
+                    <PropertyRef Name="Class"/>
+                </Key>
+                <Property Name="Kschg" Type="Edm.String" Nullable="false" MaxLength="40" sap:display-format="UpperCase" sap:label="Keyword" sap:quickinfo="Keyword (Uppercase for Matchcode)"/>
+                <Property Name="Klart" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="UpperCase" sap:label="Class Type" sap:value-list="standard"/>
+                <Property Name="Class" Type="Edm.String" Nullable="false" MaxLength="18" sap:display-format="UpperCase" sap:label="Class" sap:quickinfo="Class number"/>
+            </EntityType>
+            <EntityContainer Name="ZCDS_CN_QALS_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZCDS_BC_VH_LIFNR" EntityType="ZCDS_CN_QALS_CDS.ZCDS_BC_VH_LIFNRType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDS_BC_VH_MEF" EntityType="ZCDS_CN_QALS_CDS.ZCDS_BC_VH_MEFType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDS_BC_VH_WERK" EntityType="ZCDS_CN_QALS_CDS.ZCDS_BC_VH_WERKType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDS_CN_QALS" EntityType="ZCDS_CN_QALS_CDS.ZCDS_CN_QALSType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDS_CT_VH_CAT" EntityType="ZCDS_CN_QALS_CDS.ZCDS_CT_VH_CATType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDS_CT_VH_CLASSE" EntityType="ZCDS_CN_QALS_CDS.ZCDS_CT_VH_CLASSEType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+            </EntityContainer>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALSType/Division" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Basic CDS / Value help for Field Werk"/>
+                        <PropertyValue Property="CollectionPath" String="ZCDS_BC_VH_WERK"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Division"/>
+                                    <PropertyValue Property="ValueListProperty" String="Werks"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Name1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Name2"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Pstlz"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Ort01"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALSType/Fournisseur" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Basic CDS / Value help for Field LIFNR"/>
+                        <PropertyValue Property="CollectionPath" String="ZCDS_BC_VH_LIFNR"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Fournisseur"/>
+                                    <PropertyValue Property="ValueListProperty" String="Lifnr"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Land1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Name1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Name2"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Pstlz"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Sortl"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Mcod2"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Mcod3"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Loevm"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALSType/Mef" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Basic CDS / Valu help for Field MEF"/>
+                        <PropertyValue Property="CollectionPath" String="ZCDS_BC_VH_MEF"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Mef"/>
+                                    <PropertyValue Property="ValueListProperty" String="ZcodeMef"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Description"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALSType/CategorieClasse" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Composite CDS / Value help for Field Classe"/>
+                        <PropertyValue Property="CollectionPath" String="ZCDS_CT_VH_CLASSE"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="CategorieClasse"/>
+                                    <PropertyValue Property="ValueListProperty" String="Class"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Kschg"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Klart"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CT_VH_CLASSEType/Klart" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Composite CDS / Value help for Field Categ"/>
+                        <PropertyValue Property="CollectionPath" String="ZCDS_CT_VH_CAT"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Klart"/>
+                                    <PropertyValue Property="ValueListProperty" String="Klart"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Artxt"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALS_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="ZCDS_CN_QALS_CDS.ZCDS_CN_QALS_CDS_Entities/ZCDS_BC_VH_MEF" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Description"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>Description</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="https://hqsd1-110:9000/sap/opu/odata/sap/ZCDS_CN_QALS_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://hqsd1-110:9000/sap/opu/odata/sap/ZCDS_CN_QALS_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
