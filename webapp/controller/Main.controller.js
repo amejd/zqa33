@@ -5,11 +5,12 @@ sap.ui.define([
     "sap/ui/core/format/DateFormat",
     'sap/ui/export/Spreadsheet',
     'sap/ui/export/library',
+    'sap/m/MessageToast',
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, DateFormat, Spreadsheet, exportLibrary) {
+    function (Controller, Filter, FilterOperator, DateFormat, Spreadsheet, exportLibrary,MessageToast) {
         "use strict";
         const EdmType = exportLibrary.EdmType;
         return Controller.extend("zqa33.controller.Main", {
@@ -50,8 +51,6 @@ sap.ui.define([
                     sEnstehdat && Filters.push(
                         that._onGetFiltersDate(sEnstehdat, "DateLclCreationLot")
                     )
-
-                    console.log(Filters);
                     // debugger
                     const oModel = that.getOwnerComponent().getModel()
                     // debugger;
@@ -513,7 +512,7 @@ sap.ui.define([
                         hierarchyLevel: 'Level'
                     },
                     dataSource: oBinding,
-                    fileName: 'Table export sample.xlsx',
+                    fileName: `Rapport-Suivi_${this._formatDate(new Date())}.xlsx`,
                     worker: false // We need to disable worker because we are using a MockServer as OData Service
                 };
 
@@ -522,6 +521,14 @@ sap.ui.define([
                     oSheet.destroy();
                 });
 
-            }
+            },
+            _formatDate: function (oDate) {
+                if (!oDate) {
+                    return "";
+                }
+
+                const oDateFormat = DateFormat.getDateInstance({ pattern: "dd.MM.yyyy" });
+                return oDateFormat.format(new Date(oDate));
+            },
         });
     });

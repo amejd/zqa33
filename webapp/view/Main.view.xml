@@ -14,7 +14,6 @@
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration2" key="Article" label="{i18n>Article}" visibleInAdvancedArea="true" filterType="interval" />
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration3" key="Division"  label="{i18n>Division}" visibleInAdvancedArea="true" filterType="single" />
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration5" key="Fournisseur"  label="{i18n>Fournisseur}" visibleInAdvancedArea="true" filterType="single" />
-
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration9" key="DateLclCreationLot" label="{i18n>DteCrLot}" visibleInAdvancedArea="true" filterType="interval" />
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration8" key="FinControle" label="{i18n>DteFinCtl}" visibleInAdvancedArea="true" filterType="interval" />
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration6" key="Mef" label="Mise en forme" mandatory="mandatory" visibleInAdvancedArea="true" filterType="single" />
