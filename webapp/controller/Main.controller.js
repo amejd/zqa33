@@ -2,22 +2,23 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/ui/core/format/DateFormat"
+    "sap/ui/core/format/DateFormat",
+    'sap/ui/export/Spreadsheet',
+    'sap/ui/export/library',
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, DateFormat) {
+    function (Controller, Filter, FilterOperator, DateFormat, Spreadsheet, exportLibrary) {
         "use strict";
-
+        const EdmType = exportLibrary.EdmType;
         return Controller.extend("zqa33.controller.Main", {
             onInit: function () {
-
                 const oSmartTableFilter = this.getView().byId("smartFilterBar");
                 const oPage = this.getView().byId("page");
                 const that = this
                 oSmartTableFilter.attachSearch(function () {
-                    var oDialog = that.getView().byId("BusyDialog");
+                    const oDialog = that.getView().byId("BusyDialog");
                     oDialog.open();
                     // Get the values
                     const sPrueflos = oSmartTableFilter.getFilterData().LotDeControle;
@@ -25,11 +26,8 @@ sap.ui.define([
                     const sWerk = oSmartTableFilter.getFilterData().Division;
                     const sLifnr = oSmartTableFilter.getFilterData().Fournisseur;
                     const sMef = oSmartTableFilter.getFilterData().Mef;
-
                     const sPaendterm = oSmartTableFilter.getFilterData().FinControle;
                     const sEnstehdat = oSmartTableFilter.getFilterData().DateLclCreationLot;
-
-
 
                     // debugger;
                     let Filters = new Array();
@@ -75,8 +73,8 @@ sap.ui.define([
                                 } else {
                                     return 0;
                                 }
-                            }); 
-                            
+                            });
+
                             if (sMef == '1') {
                                 if (sap.ui.getCore().byId("idMef2")) {
                                     sap.ui.getCore().byId("idMef2").destroy()
@@ -117,27 +115,24 @@ sap.ui.define([
                 }, { passive: true });
             },
             _onGetFilters: function (sValueSFB, fieldName) {
-                // console.log('onGetFilters FOR ++> ' + fieldName);
-                // console.log(sValueSFB);
-
-                if(typeof sValueSFB === 'number'){
+                if (typeof sValueSFB === 'number') {
                     sValueSFB = JSON.stringify(sValueSFB)
                 }
                 // console.log(fieldName);
 
-                if(typeof sValueSFB === 'object'){
+                if (typeof sValueSFB === 'object') {
                     if (sValueSFB.low.split('-').length == 2) {
                         const oFilterBT = new Filter(fieldName, FilterOperator.BT, sValueSFB.low.split('-')[0], sValueSFB.low.split('-')[1]);
                         return oFilterBT;
                     }
-    
+
                     if (sValueSFB.low.split('-').length == 1) {
                         const oFilterEq = new Filter(fieldName, FilterOperator.EQ, sValueSFB.low.split('-')[0]);
                         return oFilterEq;
                     }
-                }else{
+                } else {
                     const oFilterEq = new Filter(fieldName, FilterOperator.EQ, sValueSFB);
-                    return oFilterEq;   
+                    return oFilterEq;
                 }
             },
             _onGetFiltersDate: function (sValueDate, fieldName) {
@@ -145,6 +140,7 @@ sap.ui.define([
                 return new Filter(fieldName, FilterOperator.BT, sValueDate.low, sValueDate.high)
             },
             _onGetMEF11: function (filteredData) {
+                const that = this
                 // Create the OverflowToolbar
                 const oToolbar = new sap.m.OverflowToolbar({
                     id: 'Toolbar1',
@@ -156,6 +152,19 @@ sap.ui.define([
                     id: 'Title1',
                     text: "{i18n>titleMEF1}" + `  - (${numberOfRecords} ${this.getOwnerComponent().getModel("i18n").getResourceBundle().getText('Etr')})`
                 }));
+                oToolbar.addContent(new sap.m.ToolbarSpacer({
+                    id: '_IDGenToolbarSpacer1'
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
+                    id: 'ButtonMef',
+                    type: "Accept",
+                    icon: "sap-icon://excel-attachment",
+                    press: function () {
+                        that._onExtractData('idMef1')
+                    }
+                }));
+
 
                 // Create the Table
                 const oTable = new sap.ui.table.Table({
@@ -284,8 +293,9 @@ sap.ui.define([
                 return oVBox;
             },
             _onGetMEF22: function (filteredData) {
-                 // Create the OverflowToolbar
-                 const oToolbar = new sap.m.OverflowToolbar({
+                const that = this
+                // Create the OverflowToolbar
+                const oToolbar = new sap.m.OverflowToolbar({
                     id: 'Toolbar2',
                     design: "Transparent",
                     height: "3rem"
@@ -293,8 +303,20 @@ sap.ui.define([
 
                 const numberOfRecords = filteredData.length
                 oToolbar.addContent(new sap.m.Title({
-                    id : 'Title2',
-                    text: "{i18n>titleMEF2}"+ `  - (${numberOfRecords} ${this.getOwnerComponent().getModel("i18n").getResourceBundle().getText('Etr')})`
+                    id: 'Title2',
+                    text: "{i18n>titleMEF2}" + `  - (${numberOfRecords} ${this.getOwnerComponent().getModel("i18n").getResourceBundle().getText('Etr')})`
+                }));
+                oToolbar.addContent(new sap.m.ToolbarSpacer({
+                    id: '_IDGenToolbarSpacer1'
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
+                    id: 'ButtonMef',
+                    type: "Accept",
+                    icon: "sap-icon://excel-attachment",
+                    press: function () {
+                        that._onExtractData('idMef2')
+                    }
                 }));
 
                 // Create Table
@@ -463,5 +485,43 @@ sap.ui.define([
 
                 return oVBox;
             },
+            _onExtractData: function (oIdTable) {
+                const oTable = sap.ui.getCore().byId(oIdTable)
+                const oBinding = oTable.getBinding("rows")
+                let aCols = [];
+                oTable.getColumns().forEach(function (oColumn) {
+                    const sLabel = oColumn.getLabel().getText();
+                    const sPropertyName = oColumn.getTemplate().getBindingPath("text");
+                    const sWidth = oColumn.getWidth();
+                    // Assuming you have a formatter function for some columns
+                    // const oFormatter = oColumn.getTemplate().getBinding("text").getFormatter();
+                    const oCol = {
+                        label: sLabel,
+                        property: sPropertyName,
+                        type: EdmType.String, // Adjust this based on your data type
+                        template: sPropertyName, // Use formatter if available
+                        width: sWidth
+                    };
+
+                    aCols.push(oCol);
+                });
+                console.log(aCols);
+
+                let oSettings = {
+                    workbook: {
+                        columns: aCols,
+                        hierarchyLevel: 'Level'
+                    },
+                    dataSource: oBinding,
+                    fileName: 'Table export sample.xlsx',
+                    worker: false // We need to disable worker because we are using a MockServer as OData Service
+                };
+
+                let oSheet = new Spreadsheet(oSettings);
+                oSheet.build().finally(function () {
+                    oSheet.destroy();
+                });
+
+            }
         });
     });

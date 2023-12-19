@@ -31,3 +31,6 @@ server:
       configuration:
         component: zqa33
         ui5Theme: sap_horizon
+resources:
+    configuration:
+        propertiesFileSourceEncoding: UTF-8
