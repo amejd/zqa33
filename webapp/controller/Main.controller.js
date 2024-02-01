@@ -10,7 +10,7 @@ sap.ui.define([
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, DateFormat, Spreadsheet, exportLibrary,MessageToast) {
+    function (Controller, Filter, FilterOperator, DateFormat, Spreadsheet, exportLibrary, MessageToast) {
         "use strict";
         const EdmType = exportLibrary.EdmType;
         return Controller.extend("zqa33.controller.Main", {
@@ -156,6 +156,14 @@ sap.ui.define([
                 }));
 
                 oToolbar.addContent(new sap.m.Button({
+                    id: '_IDGenButton2',
+                    icon: "sap-icon://refresh",
+                    press: function () {
+                        that.onClearAllFilters('idMef1')
+                    }
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
                     id: 'ButtonMef',
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
@@ -216,26 +224,36 @@ sap.ui.define([
                         new sap.ui.table.Column({
                             label: "{i18n>LotDeControle}",
                             template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+                            sortProperty: 'LotDeControle',
+                            filterProperty: 'LotDeControle',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>LotFournisseur}",
                             template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+                            sortProperty: 'LotFournisseur',
+                            filterProperty: 'LotFournisseur',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Lot}",
                             template: new sap.m.Text().bindProperty("text", "Lot"),
+                            sortProperty: 'Lot',
+                            filterProperty: 'Lot',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>NomFournisseur}",
                             template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
+                            sortProperty: 'NomFournisseur',
+                            filterProperty: 'NomFournisseur',
                             width: '25rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Description}",
                             template: new sap.m.Text().bindProperty("text", "Description"),
+                            sortProperty: 'Description',
+                            filterProperty: 'Description',
                             width: '25rem'
                         }),
                         new sap.ui.table.Column({
@@ -246,31 +264,43 @@ sap.ui.define([
                                     return QteLotControle + " " + UniteQteBase;
                                 }
                             }),
+                            sortProperty: 'QteLotControle',
+                            filterProperty: 'QteLotControle',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>NumArticleFournisseur}",
                             template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
+                            sortProperty: 'NumArticleFournisseur',
+                            filterProperty: 'NumArticleFournisseur',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DelaiRecepInspection}",
                             template: new sap.m.Text().bindProperty("text", "DelaiRecepInspection"),
+                            sortProperty: 'DelaiRecepInspection',
+                            filterProperty: 'DelaiRecepInspection',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DelaiRecepCoA}",
                             template: new sap.m.Text().bindProperty("text", "DelaiRecepCoA"),
+                            sortProperty: 'DelaiRecepCoA',
+                            filterProperty: 'DelaiRecepCoA',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DelaiRecepDecition}",
                             template: new sap.m.Text().bindProperty("text", "DelaiRecepDecition"),
+                            sortProperty: 'DelaiRecepDecition',
+                            filterProperty: 'DelaiRecepDecition',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DelaiAvisInitie}",
                             template: new sap.m.Text().bindProperty("text", "DelaiAvisInitie"),
+                            sortProperty: 'DelaiAvisInitie',
+                            filterProperty: 'DelaiAvisInitie',
                             width: '11rem'
                         })
 
@@ -310,6 +340,14 @@ sap.ui.define([
                 }));
 
                 oToolbar.addContent(new sap.m.Button({
+                    id: '_IDGenButton2',
+                    icon: "sap-icon://refresh",
+                    press: function () {
+                        that.onClearAllFilters('idMef2')
+                    }
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
                     id: 'ButtonMef',
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
@@ -338,6 +376,12 @@ sap.ui.define([
                                 }),
                                 new sap.m.Text({
                                     text: "{Article}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{Description}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{NumArticleFournisseur}"
                                 }),
                                 new sap.m.Text({
                                     text: "{Division}"
@@ -376,21 +420,50 @@ sap.ui.define([
                         new sap.ui.table.Column({
                             label: "{i18n>LotDeControle}",
                             template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+                            sortProperty: 'LotDeControle',
+                            filterProperty: 'LotDeControle',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>LotFournisseur}",
                             template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+                            sortProperty: 'LotFournisseur',
+                            filterProperty: 'LotFournisseur',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>Lot}",
+                            template: new sap.m.Text().bindProperty("text", "Lot"),
+                            sortProperty: 'Lot',
+                            filterProperty: 'Lot',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Article}",
                             template: new sap.m.Text().bindProperty("text", "Article"),
+                            sortProperty: 'Article',
+                            filterProperty: 'Article',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>Description}",
+                            template: new sap.m.Text().bindProperty("text", "Description"),
+                            sortProperty: 'Description',
+                            filterProperty: 'Description',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>NumArticleFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
+                            sortProperty: 'NumArticleFournisseur',
+                            filterProperty: 'NumArticleFournisseur',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Division}",
                             template: new sap.m.Text().bindProperty("text", "Division"),
+                            sortProperty: 'Division',
+                            filterProperty: 'Division',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
@@ -401,46 +474,64 @@ sap.ui.define([
                                     return QteLotControle + " " + UniteQteBase;
                                 }
                             }),
+                            sortProperty: 'QteLotControle',
+                            filterProperty: 'QteLotControle',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DateDocument}",
                             template: new sap.m.Text().bindProperty("text", "DateDocument"),
+                            sortProperty: 'DateDocument',
+                            filterProperty: 'DateDocument',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DecisionUtiOrig}",
                             template: new sap.m.Text().bindProperty("text", "DecisionUtiOrig"),
+                            sortProperty: 'DecisionUtiOrig',
+                            filterProperty: 'DecisionUtiOrig',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DecisionUtiModif}",
                             template: new sap.m.Text().bindProperty("text", "DecisionUtiModif"),
+                            sortProperty: 'DecisionUtiModif',
+                            filterProperty: 'DecisionUtiModif',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DateDecisionOrig}",
                             template: new sap.m.Text().bindProperty("text", "DateDecisionOrig"),
+                            sortProperty: 'DateDecisionOrig',
+                            filterProperty: 'DateDecisionOrig',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>DateUtiModifiee}",
                             template: new sap.m.Text().bindProperty("text", "DateUtiModifiee"),
+                            sortProperty: 'DateUtiModifiee',
+                            filterProperty: 'DateUtiModifiee',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Utilisateur}",
                             template: new sap.m.Text().bindProperty("text", "Utilisateur"),
+                            sortProperty: 'Utilisateur',
+                            filterProperty: 'Utilisateur',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>StatutStock}",
                             template: new sap.m.Text().bindProperty("text", "StatutStock"),
+                            sortProperty: 'StatutStock',
+                            filterProperty: 'StatutStock',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>StatutRecepCoA}",
                             template: new sap.m.Text().bindProperty("text", "StatutRecepCoA"),
+                            sortProperty: 'StatutRecepCoA',
+                            filterProperty: 'StatutRecepCoA',
                             width: '11rem'
                         })
 
@@ -530,5 +621,28 @@ sap.ui.define([
                 const oDateFormat = DateFormat.getDateInstance({ pattern: "dd.MM.yyyy" });
                 return oDateFormat.format(new Date(oDate));
             },
+            onClearAllFilters: function (id, that) {
+                // Get the table
+                const oTable = sap.ui.getCore().byId(id);
+                // debugger
+                const oListBinding = oTable.getBinding();
+                // Clear selection
+                oTable.clearSelection();
+
+                if (oListBinding) {
+                    oListBinding.aSorters = null;
+                    oListBinding.aFilters = null;
+                }
+
+                for (let iColCounter = 0; iColCounter < oTable.getColumns().length; iColCounter++) {
+                    oTable.getColumns()[iColCounter].setSorted(false);
+                    oTable.getColumns()[iColCounter].setFilterValue("");
+                    oTable.getColumns()[iColCounter].setFiltered(false);
+                }
+
+                // Update Binding
+                // Remove any filters
+                oListBinding.filter([]);
+            }
         });
     });
