@@ -190,7 +190,7 @@ sap.ui.define([
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
                     press: function () {
-                        that._onExtractData(1,'idMef1')
+                        that._onExtractData(1, 'idMef1')
                     }
                 }));
 
@@ -384,7 +384,7 @@ sap.ui.define([
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
                     press: function () {
-                        that._onExtractData(2,'idMef2')
+                        that._onExtractData(2, 'idMef2')
                     }
                 }));
 
@@ -591,26 +591,25 @@ sap.ui.define([
                 // Access the resource bundle
                 const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle()
                 // Get Binding
-                const oTable = sap.ui.getCore(oIdTable)//. this.getView().byId(oIdTable)
-                debugger
+                const oTable = sap.ui.getCore().byId(oIdTable)
                 const oBinding = oTable.getBinding("rows");
                 let dataType = "application/vnd.ms-excel";
                 // Hidden Link
                 const aId = this.createId("hiddenLink")
                 let aHyperlink = document.getElementById(aId)
                 // Binding
-                if(oBinding && oBinding.getLength() > 0){
+                if (oBinding && oBinding.getLength() > 0) {
                     const htmlCode = this._onGetHTMLExcel(oMef, oBinding.oList)
                     aHyperlink.href = `data:${dataType}, ${htmlCode}`;
-                    if(oMef == 1){
+                    if (oMef == 1) {
                         aHyperlink.download = `${oResourceBundle.getText('fileMef1')}-${this._formatDate(new Date())}.xls`;
-                    }else{
+                    } else {
                         aHyperlink.download = `${oResourceBundle.getText('fileMef2')}-${this._formatDate(new Date())}.xls`;
                     }
                     //triggering the function
                     aHyperlink.click();
                     oDialog.close()
-                }else{
+                } else {
                     MessageToast.show("No data bound")
                     oDialog.close();
                     return;
@@ -654,21 +653,22 @@ sap.ui.define([
                 // Date
                 const pDate = this._formatDate(new Date())
                 // User
-                
+                const xnavservice = sap.ushell && sap.ushell.Container.getService && sap.ushell.Container.getService("UserInfo")
+                const user = xnavservice != null ? xnavservice.getFullName() : 'Unknown'
                 // Access the resource bundle
                 const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle()
                 let title = ''
                 let htmlCode = ''
-                
-                if(pMef == 1){
+
+                if (pMef == 1) {
                     title = oResourceBundle.getText("titleMef1");
                     htmlCode = `
                             <div id="allfile">
                             <div class="container">
                             <h2>${title}</h2>
                             <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
-                            <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;amejd</p>
-                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${sEnstehdat.low} - ${sEnstehdat.high}</p>` : ''}
+                            <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
                             </div>
                             <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse;">
                             <thead>
@@ -686,12 +686,11 @@ sap.ui.define([
                                 </tr>
                             </thead>
                             <tbody>
-                                ${
-                                    pData && pData.map((e)=>{
-                                        return(
-                                            `
+                                ${pData && pData.map((e) => {
+                        return (
+                            `
                                             <tr>
-                                            <td style="border: 1px solid black;text-align:center;">${e.LotDeControle}</td>
+                                            <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
@@ -703,19 +702,23 @@ sap.ui.define([
                                             <td style="border: 1px solid black;text-align:center;">${e.DelaiAvisInitie}</td>
                                             </tr>
                                             `
-                                        )
-                                    }).join('')
+                        )
+                    }).join('')
 
-                                }
+                        }
                                 
                             </tbody>
                             </table>
                         </div>`
+
+                    
                 }
 
-                if(pMef == 2){
+                if (pMef == 2) {
                     title = oResourceBundle.getText("titleMef2");
                 }
+
+                return this._onGetHTMLFullCode(htmlCode)
 
             },
             _onGetHTMLFullCode: function (pHtmlCode) {
