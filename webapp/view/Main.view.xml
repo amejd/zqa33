@@ -1,7 +1,9 @@
 <mvc:View controllerName="zqa33.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m"
-    xmlns:sfb="sap.ui.comp.smartfilterbar">
+    xmlns:sfb="sap.ui.comp.smartfilterbar"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+>
     <Page id="page" title="{i18n>title}" enableScrolling="false">
         <!-- Define the Smart Filter bar -->
         <sfb:SmartFilterBar
@@ -20,6 +22,7 @@
                 <sfb:ControlConfiguration id="_IDGenControlConfiguration7" key="CategorieClasse" label="{i18n>CtgParCls}"  visibleInAdvancedArea="true" filterType="single" />
             </sfb:controlConfiguration>
         </sfb:SmartFilterBar>
+         <html:a id="hiddenLink"></html:a> 
         <!-- Table below -->
         <BusyDialog id="BusyDialog" />
         <!-- Table is set from the controller based on the MEF -->

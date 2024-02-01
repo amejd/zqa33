@@ -197,13 +197,16 @@ sap.ui.define([
                                     text: "{NomFournisseur}"
                                 }),
                                 new sap.m.Text({
-                                    text: "{NumArticleFournisseur}"
-                                }),
-                                new sap.m.Text({
                                     text: "{Description}"
                                 }),
                                 new sap.m.Text({
                                     text: "{QteLotControle} {UniteQteBase}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{DateDocument}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{NumArticleFournisseur}"
                                 }),
                                 new sap.m.Text({
                                     text: "{DelaiRecepInspection}"
@@ -266,6 +269,13 @@ sap.ui.define([
                             }),
                             sortProperty: 'QteLotControle',
                             filterProperty: 'QteLotControle',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>DateDocument}",
+                            template: new sap.m.Text().bindProperty("text", "DateDocument"),
+                            sortProperty: 'DateDocument',
+                            filterProperty: 'DateDocument',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
@@ -643,6 +653,29 @@ sap.ui.define([
                 // Update Binding
                 // Remove any filters
                 oListBinding.filter([]);
+            },
+            _onGetHTMLExcel : function(pMef, pData){
+                
+            },
+            _onGetHTMLFullCode : function(pHtmlCode){
+                let fullHTML = `
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    
+                    <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>ss</title>
+                    </head>
+                    <body>
+                        ${pHtmlCode}
+                    </body>
+                    </html>
+                    `
+
+                fullHTML = fullHTML.replace(/ /g, "%20");
+                return fullHTML
             }
         });
     });
