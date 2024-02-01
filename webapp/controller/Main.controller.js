@@ -81,18 +81,22 @@ sap.ui.define([
 
                             const formattedData = oData.results.map(item => {
                                 // console.log(item);
-                                if (item.DateDecisionOrig) {
-                                    // debugger
-                                    // console.log(item.DateDecisionOrig);
+                                if (item.DateDecisionOrig != null) {
                                     item.DateDecisionOrig = oDateFormat.format(item.DateDecisionOrig);
+                                }else{
+                                    item.DateDecisionOrig = ' '
                                 }
-                                if (item.DateDocument) {
-                                    // console.log(item.DateDocument);
+                                
+                                if (item.DateDocument != null) {
                                     item.DateDocument = oDateFormat.format(item.DateDocument);
+                                }else{
+                                    item.DateDocument = ' '
                                 }
                                 // debugger
-                                if (item.DateUtiModifiee) {
+                                if (item.DateUtiModifiee != null) {
                                     item.DateUtiModifiee = oDateFormat.format(item.DateUtiModifiee);
+                                }else{
+                                    item.DateUtiModifiee = ' '
                                 }
                                 return item;
                             });
@@ -667,10 +671,11 @@ sap.ui.define([
                             <div class="container">
                             <h2>${title}</h2>
                             <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px; margin-bottom: 2px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
                             <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
-                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
                             </div>
-                            <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse;">
+                            <p></p>
+                            <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse; margin-top: 20px;">
                             <thead>
                                 <tr>
                                 <th style="width: 10em; border: 1px solid black;">Lot de Controle</th>
@@ -716,6 +721,68 @@ sap.ui.define([
 
                 if (pMef == 2) {
                     title = oResourceBundle.getText("titleMef2");
+                    htmlCode = `
+                            <div id="allfile">
+                            <div class="container">
+                            <h2>${title}</h2>
+                            <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
+                            <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
+                            </div>
+                            <p></p>
+                            <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                <th style="width: 10em; border: 1px solid black;">Lot de Controle</th>
+                                <th style="width: 10em; border: 1px solid black;">Lot fournisseur</th>
+                                <th style="width: 10em; border: 1px solid black;">Lot</th>
+                                <th style="width: 10em; border: 1px solid black;">Article</th>
+                                <th style="width: 15em; border: 1px solid black;">Description</th>
+                                <th style="width: 20em; border: 1px solid black;">Num Article Fournisseur</th>
+                                <th style="width: 10em; border: 1px solid black;">Division</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Quantite")}</th>
+                                <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("DateDocument")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DecisionUtiOrig")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DecisionUtiModif")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DateDecisionOrig")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DateUtiModifiee")}</th>
+                                <th style="width: 20em; border: 1px solid black;">Utilisateur</th>
+                                <th style="width: 20em; border: 1px solid black;">Statut du Stock</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("StatutRecepCoA")}</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${pData && pData.map((e) => {
+                        return (
+                            `
+                                            <tr>
+                                            <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.NumArticleFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Division}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.QteLotControle} ${e.UniteQteBase}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DateDocument}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DecisionUtiOrig}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DecisionUtiModif}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DateDecisionOrig}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DateUtiModifiee}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Utilisateur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.StatutStock}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.StatutRecepCoA}</td>
+                                            </tr>
+                                            `
+                        )
+                    }).join('')
+
+                        }
+                                
+                            </tbody>
+                            </table>
+                        </div>`
                 }
 
                 return this._onGetHTMLFullCode(htmlCode)
