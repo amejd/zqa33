@@ -74,6 +74,28 @@ sap.ui.define([
                                 }
                             });
 
+                            // ConvertDate
+                            const oDateFormat = DateFormat.getInstance({
+                                pattern: "dd-MM-yyyy"
+                            });
+
+                            const formattedData = oData.results.map(item => {
+                                // console.log(item);
+                                if (item.DateDecisionOrig) {
+                                    // debugger
+                                    // console.log(item.DateDecisionOrig);
+                                    item.DateDecisionOrig = oDateFormat.format(item.DateDecisionOrig);
+                                }
+                                if (item.DateDocument) {
+                                    // console.log(item.DateDocument);
+                                    item.DateDocument = oDateFormat.format(item.DateDocument);
+                                }
+                                // debugger
+                                if (item.DateUtiModifiee) {
+                                    item.DateUtiModifiee = oDateFormat.format(item.DateUtiModifiee);
+                                }
+                                return item;
+                            });
                             if (sMef == '1') {
                                 if (sap.ui.getCore().byId("idMef2")) {
                                     sap.ui.getCore().byId("idMef2").destroy()
@@ -87,7 +109,7 @@ sap.ui.define([
                                     sap.ui.getCore().byId("Toolbar1").destroy()
                                     sap.ui.getCore().byId("Vbox1").destroy()
                                 }
-                                oPage.addContent(that._onGetMEF11(oData.results))
+                                oPage.addContent(that._onGetMEF11(formattedData))
                             } else if (sMef == '2') {
                                 if (sap.ui.getCore().byId("idMef1")) {
                                     sap.ui.getCore().byId("idMef1").destroy()
@@ -101,7 +123,7 @@ sap.ui.define([
                                     sap.ui.getCore().byId("Toolbar2").destroy()
                                     sap.ui.getCore().byId("Vbox2").destroy()
                                 }
-                                oPage.addContent(that._onGetMEF22(oData.results))
+                                oPage.addContent(that._onGetMEF22(formattedData))
                             } else {
                                 alert('Not implemented, use a value Help in the MEF Field !')
                             }
@@ -168,7 +190,7 @@ sap.ui.define([
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
                     press: function () {
-                        that._onExtractData('idMef1')
+                        that._onExtractData(1,'idMef1')
                     }
                 }));
 
@@ -362,7 +384,7 @@ sap.ui.define([
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
                     press: function () {
-                        that._onExtractData('idMef2')
+                        that._onExtractData(2,'idMef2')
                     }
                 }));
 
@@ -549,30 +571,7 @@ sap.ui.define([
                 });
 
                 const oModel = new sap.ui.model.json.JSONModel();
-                // ConvertDate
-                const oDateFormat = DateFormat.getInstance({
-                    pattern: "dd-MM-yyyy"
-                });
-
-                const formattedData = filteredData.map(item => {
-                    // console.log(item);
-                    if (item.DateDecisionOrig) {
-                        // debugger
-                        // console.log(item.DateDecisionOrig);
-                        item.DateDecisionOrig = oDateFormat.format(item.DateDecisionOrig);
-                    }
-                    if (item.DateDocument) {
-                        // console.log(item.DateDocument);
-                        item.DateDocument = oDateFormat.format(item.DateDocument);
-                    }
-                    // debugger
-                    if (item.DateUtiModifiee) {
-                        item.DateUtiModifiee = oDateFormat.format(item.DateUtiModifiee);
-                    }
-                    return item;
-                });
-
-                oModel.setData({ 'MEF1': formattedData });
+                oModel.setData({ 'MEF1': filteredData });
 
                 // Binding
                 oTable.setModel(oModel);
@@ -585,43 +584,37 @@ sap.ui.define([
 
                 return oVBox;
             },
-            _onExtractData: function (oIdTable) {
-                const oTable = sap.ui.getCore().byId(oIdTable)
-                const oBinding = oTable.getBinding("rows")
-                let aCols = [];
-                oTable.getColumns().forEach(function (oColumn) {
-                    const sLabel = oColumn.getLabel().getText();
-                    const sPropertyName = oColumn.getTemplate().getBindingPath("text");
-                    const sWidth = oColumn.getWidth();
-                    // Assuming you have a formatter function for some columns
-                    // const oFormatter = oColumn.getTemplate().getBinding("text").getFormatter();
-                    const oCol = {
-                        label: sLabel,
-                        property: sPropertyName,
-                        type: EdmType.String, // Adjust this based on your data type
-                        template: sPropertyName, // Use formatter if available
-                        width: sWidth
-                    };
-
-                    aCols.push(oCol);
-                });
-                console.log(aCols);
-
-                let oSettings = {
-                    workbook: {
-                        columns: aCols,
-                        hierarchyLevel: 'Level'
-                    },
-                    dataSource: oBinding,
-                    fileName: `Rapport-Suivi_${this._formatDate(new Date())}.xlsx`,
-                    worker: false // We need to disable worker because we are using a MockServer as OData Service
-                };
-
-                let oSheet = new Spreadsheet(oSettings);
-                oSheet.build().finally(function () {
-                    oSheet.destroy();
-                });
-
+            _onExtractData: function (oMef, oIdTable) {
+                // Get Dialog
+                const oDialog = this.getView().byId("BusyDialog");
+                oDialog.open();
+                // Access the resource bundle
+                const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle()
+                // Get Binding
+                const oTable = sap.ui.getCore(oIdTable)//. this.getView().byId(oIdTable)
+                debugger
+                const oBinding = oTable.getBinding("rows");
+                let dataType = "application/vnd.ms-excel";
+                // Hidden Link
+                const aId = this.createId("hiddenLink")
+                let aHyperlink = document.getElementById(aId)
+                // Binding
+                if(oBinding && oBinding.getLength() > 0){
+                    const htmlCode = this._onGetHTMLExcel(oMef, oBinding.oList)
+                    aHyperlink.href = `data:${dataType}, ${htmlCode}`;
+                    if(oMef == 1){
+                        aHyperlink.download = `${oResourceBundle.getText('fileMef1')}-${this._formatDate(new Date())}.xls`;
+                    }else{
+                        aHyperlink.download = `${oResourceBundle.getText('fileMef2')}-${this._formatDate(new Date())}.xls`;
+                    }
+                    //triggering the function
+                    aHyperlink.click();
+                    oDialog.close()
+                }else{
+                    MessageToast.show("No data bound")
+                    oDialog.close();
+                    return;
+                }
             },
             _formatDate: function (oDate) {
                 if (!oDate) {
@@ -654,10 +647,78 @@ sap.ui.define([
                 // Remove any filters
                 oListBinding.filter([]);
             },
-            _onGetHTMLExcel : function(pMef, pData){
+            _onGetHTMLExcel: function (pMef, pData) {
+                // Get Smartfilterbar, to get Header
+                const oSmartTableFilter = this.getView().byId("smartFilterBar");
+                const sEnstehdat = oSmartTableFilter.getFilterData().DateLclCreationLot
+                // Date
+                const pDate = this._formatDate(new Date())
+                // User
                 
+                // Access the resource bundle
+                const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle()
+                let title = ''
+                let htmlCode = ''
+                
+                if(pMef == 1){
+                    title = oResourceBundle.getText("titleMef1");
+                    htmlCode = `
+                            <div id="allfile">
+                            <div class="container">
+                            <h2>${title}</h2>
+                            <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
+                            <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;amejd</p>
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${sEnstehdat.low} - ${sEnstehdat.high}</p>` : ''}
+                            </div>
+                            <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                <th style="width: 10em; border: 1px solid black;">Lot de Controle</th>
+                                <th style="width: 10em; border: 1px solid black;">Lot fournisseur</th>
+                                <th style="width: 10em; border: 1px solid black;">Lot</th>
+                                <th style="width: 15em; border: 1px solid black;">Nom Fournisseur</th>
+                                <th style="width: 15em; border: 1px solid black;">Description</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Quantite")}</th>
+                                <th style="width: 20em; border: 1px solid black;">Num Article Fournisseur</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiRecepCoA")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiRecepDecition")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiAvisInitie")}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${
+                                    pData && pData.map((e)=>{
+                                        return(
+                                            `
+                                            <tr>
+                                            <td style="border: 1px solid black;text-align:center;">${e.LotDeControle}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.QteLotControle} ${e.UniteQteBase}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.NumArticleFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DelaiRecepCoA}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DelaiRecepDecition}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DelaiAvisInitie}</td>
+                                            </tr>
+                                            `
+                                        )
+                                    }).join('')
+
+                                }
+                                
+                            </tbody>
+                            </table>
+                        </div>`
+                }
+
+                if(pMef == 2){
+                    title = oResourceBundle.getText("titleMef2");
+                }
+
             },
-            _onGetHTMLFullCode : function(pHtmlCode){
+            _onGetHTMLFullCode: function (pHtmlCode) {
                 let fullHTML = `
                     <!DOCTYPE html>
                     <html lang="en">
