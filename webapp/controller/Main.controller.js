@@ -83,19 +83,19 @@ sap.ui.define([
                                 // console.log(item);
                                 if (item.DateDecisionOrig != null) {
                                     item.DateDecisionOrig = oDateFormat.format(item.DateDecisionOrig);
-                                }else{
+                                } else {
                                     item.DateDecisionOrig = ' '
                                 }
-                                
+
                                 if (item.DateDocument != null) {
                                     item.DateDocument = oDateFormat.format(item.DateDocument);
-                                }else{
+                                } else {
                                     item.DateDocument = ' '
                                 }
                                 // debugger
                                 if (item.DateUtiModifiee != null) {
                                     item.DateUtiModifiee = oDateFormat.format(item.DateUtiModifiee);
-                                }else{
+                                } else {
                                     item.DateUtiModifiee = ' '
                                 }
                                 return item;
@@ -211,28 +211,28 @@ sap.ui.define([
                         template: new sap.ui.table.Row({
                             cells: [
                                 new sap.m.Text({
-                                    text: "{LotDeControle}"
+                                    text: "{Description}"
                                 }),
                                 new sap.m.Text({
-                                    text: "{LotFournisseur}"
-                                }),
-                                new sap.m.Text({
-                                    text: "{Lot}"
+                                    text: "{Article}"
                                 }),
                                 new sap.m.Text({
                                     text: "{NomFournisseur}"
                                 }),
                                 new sap.m.Text({
-                                    text: "{Description}"
+                                    text: "{NumArticleFournisseur}" 
+                                }),
+                                new sap.m.Text({
+                                    text: "{LotFournisseur}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{LotDeControle}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{Lot}"
                                 }),
                                 new sap.m.Text({
                                     text: "{QteLotControle} {UniteQteBase}"
-                                }),
-                                new sap.m.Text({
-                                    text: "{DateDocument}"
-                                }),
-                                new sap.m.Text({
-                                    text: "{NumArticleFournisseur}"
                                 }),
                                 new sap.m.Text({
                                     text: "{DelaiRecepInspection}"
@@ -251,24 +251,17 @@ sap.ui.define([
                     },
                     columns: [
                         new sap.ui.table.Column({
-                            label: "{i18n>LotDeControle}",
-                            template: new sap.m.Text().bindProperty("text", "LotDeControle"),
-                            sortProperty: 'LotDeControle',
-                            filterProperty: 'LotDeControle',
-                            width: '11rem'
+                            label: "{i18n>Description}",
+                            template: new sap.m.Text().bindProperty("text", "Description"),
+                            sortProperty: 'Description',
+                            filterProperty: 'Description',
+                            width: '25rem'
                         }),
                         new sap.ui.table.Column({
-                            label: "{i18n>LotFournisseur}",
-                            template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
-                            sortProperty: 'LotFournisseur',
-                            filterProperty: 'LotFournisseur',
-                            width: '11rem'
-                        }),
-                        new sap.ui.table.Column({
-                            label: "{i18n>Lot}",
-                            template: new sap.m.Text().bindProperty("text", "Lot"),
-                            sortProperty: 'Lot',
-                            filterProperty: 'Lot',
+                            label: "{i18n>Article}",
+                            template: new sap.m.Text().bindProperty("text", "Article"),
+                            sortProperty: 'Article',
+                            filterProperty: 'Article',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
@@ -279,11 +272,32 @@ sap.ui.define([
                             width: '25rem'
                         }),
                         new sap.ui.table.Column({
-                            label: "{i18n>Description}",
-                            template: new sap.m.Text().bindProperty("text", "Description"),
-                            sortProperty: 'Description',
-                            filterProperty: 'Description',
-                            width: '25rem'
+                            label: "{i18n>NumArticleFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
+                            sortProperty: 'NumArticleFournisseur',
+                            filterProperty: 'NumArticleFournisseur',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>LotFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+                            sortProperty: 'LotFournisseur',
+                            filterProperty: 'LotFournisseur',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>LotDeControle}",
+                            template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+                            sortProperty: 'LotDeControle',
+                            filterProperty: 'LotDeControle',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>Lot}",
+                            template: new sap.m.Text().bindProperty("text", "Lot"),
+                            sortProperty: 'Lot',
+                            filterProperty: 'Lot',
+                            width: '11rem'
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>Quantite}",
@@ -295,20 +309,6 @@ sap.ui.define([
                             }),
                             sortProperty: 'QteLotControle',
                             filterProperty: 'QteLotControle',
-                            width: '11rem'
-                        }),
-                        new sap.ui.table.Column({
-                            label: "{i18n>DateDocument}",
-                            template: new sap.m.Text().bindProperty("text", "DateDocument"),
-                            sortProperty: 'DateDocument',
-                            filterProperty: 'DateDocument',
-                            width: '11rem'
-                        }),
-                        new sap.ui.table.Column({
-                            label: "{i18n>NumArticleFournisseur}",
-                            template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
-                            sortProperty: 'NumArticleFournisseur',
-                            filterProperty: 'NumArticleFournisseur',
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
@@ -671,20 +671,22 @@ sap.ui.define([
                             <div class="container">
                             <h2>${title}</h2>
                             <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
-                            ${sEnstehdat != null ? `<p style="margin-top: 1px; margin-bottom: 2px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px; margin-bottom: 2px;"><b>Selection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
                             <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
                             </div>
                             <p></p>
                             <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse; margin-top: 20px;">
                             <thead>
                                 <tr>
-                                <th style="width: 10em; border: 1px solid black;">Lot de Controle</th>
-                                <th style="width: 10em; border: 1px solid black;">Lot fournisseur</th>
-                                <th style="width: 10em; border: 1px solid black;">Lot</th>
-                                <th style="width: 15em; border: 1px solid black;">Nom Fournisseur</th>
-                                <th style="width: 15em; border: 1px solid black;">Description</th>
+                                <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("Description")}</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Article")}</th>
+                                <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("NomFournisseur")}</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("NumArticleFournisseur")}</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotFournisseur")}</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotDeControle")}</th>
+                                <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Lot")}</th>
                                 <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Quantite")}</th>
-                                <th style="width: 20em; border: 1px solid black;">Num Article Fournisseur</th>
+                                <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiRecepInspection")}</th>
                                 <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiRecepCoA")}</th>
                                 <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiRecepDecition")}</th>
                                 <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DelaiAvisInitie")}</th>
@@ -695,13 +697,15 @@ sap.ui.define([
                         return (
                             `
                                             <tr>
-                                            <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
-                                            <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
-                                            <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
-                                            <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
-                                            <td style="border: 1px solid black;text-align:center;">${e.QteLotControle} ${e.UniteQteBase}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.NumArticleFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
+                                            <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.QteLotControle} ${e.UniteQteBase}</td>
+                                            <td style="border: 1px solid black;text-align:center;">${e.DelaiRecepInspection}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.DelaiRecepCoA}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.DelaiRecepDecition}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.DelaiAvisInitie}</td>
@@ -716,7 +720,7 @@ sap.ui.define([
                             </table>
                         </div>`
 
-                    
+
                 }
 
                 if (pMef == 2) {
@@ -727,7 +731,7 @@ sap.ui.define([
                             <h2>${title}</h2>
                             <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
                             <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
-                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Sélection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px;"><b>Selection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
                             </div>
                             <p></p>
                             <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse;">
