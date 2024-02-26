@@ -92,7 +92,7 @@ sap.ui.define([
                                 } else {
                                     item.DateDocument = ' '
                                 }
-                                // debugger
+
                                 if (item.DateUtiModifiee != null) {
                                     item.DateUtiModifiee = oDateFormat.format(item.DateUtiModifiee);
                                 } else {
@@ -107,14 +107,41 @@ sap.ui.define([
                                     sap.ui.getCore().byId("Toolbar2").destroy()
                                     sap.ui.getCore().byId("Vbox2").destroy()
                                 }
+                                if (sap.ui.getCore().byId("idMef3")) {
+                                    sap.ui.getCore().byId("idMef3").destroy()
+                                    sap.ui.getCore().byId("Title3").destroy()
+                                    sap.ui.getCore().byId("Toolbar3").destroy()
+                                    sap.ui.getCore().byId("Vbox3").destroy()
+                                }
                                 if (sap.ui.getCore().byId("idMef1")) {
                                     sap.ui.getCore().byId("idMef1").destroy()
                                     sap.ui.getCore().byId("Title1").destroy()
                                     sap.ui.getCore().byId("Toolbar1").destroy()
                                     sap.ui.getCore().byId("Vbox1").destroy()
                                 }
+
                                 oPage.addContent(that._onGetMEF11(formattedData))
                             } else if (sMef == '2') {
+                                if (sap.ui.getCore().byId("idMef1")) {
+                                    sap.ui.getCore().byId("idMef1").destroy()
+                                    sap.ui.getCore().byId("Title1").destroy()
+                                    sap.ui.getCore().byId("Toolbar1").destroy()
+                                    sap.ui.getCore().byId("Vbox1").destroy()
+                                }
+                                if (sap.ui.getCore().byId("idMef3")) {
+                                    sap.ui.getCore().byId("idMef3").destroy()
+                                    sap.ui.getCore().byId("Title3").destroy()
+                                    sap.ui.getCore().byId("Toolbar3").destroy()
+                                    sap.ui.getCore().byId("Vbox3").destroy()
+                                }
+                                if (sap.ui.getCore().byId("idMef2")) {
+                                    sap.ui.getCore().byId("idMef2").destroy()
+                                    sap.ui.getCore().byId("Title2").destroy()
+                                    sap.ui.getCore().byId("Toolbar2").destroy()
+                                    sap.ui.getCore().byId("Vbox2").destroy()
+                                }
+                                oPage.addContent(that._onGetMEF22(formattedData))
+                            } else if (sMef == '3') {
                                 if (sap.ui.getCore().byId("idMef1")) {
                                     sap.ui.getCore().byId("idMef1").destroy()
                                     sap.ui.getCore().byId("Title1").destroy()
@@ -127,8 +154,15 @@ sap.ui.define([
                                     sap.ui.getCore().byId("Toolbar2").destroy()
                                     sap.ui.getCore().byId("Vbox2").destroy()
                                 }
-                                oPage.addContent(that._onGetMEF22(formattedData))
-                            } else {
+                                if (sap.ui.getCore().byId("idMef3")) {
+                                    sap.ui.getCore().byId("idMef3").destroy()
+                                    sap.ui.getCore().byId("Title3").destroy()
+                                    sap.ui.getCore().byId("Toolbar3").destroy()
+                                    sap.ui.getCore().byId("Vbox3").destroy()
+                                }
+                                oPage.addContent(that._onGetMEF33(formattedData))
+                            }
+                            else {
                                 alert('Not implemented, use a value Help in the MEF Field !')
                             }
                             oDialog.close()
@@ -220,7 +254,7 @@ sap.ui.define([
                                     text: "{NomFournisseur}"
                                 }),
                                 new sap.m.Text({
-                                    text: "{NumArticleFournisseur}" 
+                                    text: "{NumArticleFournisseur}"
                                 }),
                                 new sap.m.Text({
                                     text: "{LotFournisseur}"
@@ -583,6 +617,243 @@ sap.ui.define([
                 // Create a Vertical Layout (VBox) to stack the OverflowToolbar and Table
                 const oVBox = new sap.m.VBox({
                     id: 'Vbox2',
+                    items: [oToolbar, oTable]
+                });
+
+                return oVBox;
+            },
+            _onGetMEF33: function (filteredData) {
+                const that = this
+                // Create the OverflowToolbar
+                const oToolbar = new sap.m.OverflowToolbar({
+                    id: 'Toolbar3',
+                    design: "Transparent",
+                    height: "3rem"
+                });
+
+                const numberOfRecords = filteredData.length
+                oToolbar.addContent(new sap.m.Title({
+                    id: 'Title3',
+                    text: "{i18n>titleMEF3}" + `  - (${numberOfRecords} ${this.getOwnerComponent().getModel("i18n").getResourceBundle().getText('Etr')})`
+                }));
+                oToolbar.addContent(new sap.m.ToolbarSpacer({
+                    id: '_IDGenToolbarSpacer3'
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
+                    id: '_IDGenButton3',
+                    icon: "sap-icon://refresh",
+                    press: function () {
+                        that.onClearAllFilters('idMef3')
+                    }
+                }));
+
+                oToolbar.addContent(new sap.m.Button({
+                    id: 'ButtonMef3',
+                    type: "Accept",
+                    icon: "sap-icon://excel-attachment",
+                    press: function () {
+                        that._onExtractData(2, 'idMef3')
+                    }
+                }));
+
+                // Create Table
+                // const oTable = new sap.ui.table.Table({
+                //     id: "idMef3",
+                //     visibleRowCount: 6,
+                //     selectionMode: sap.ui.table.SelectionMode.MultiToggle,
+                //     rows: {
+                //         path: "/MEF3",
+                //         template: new sap.ui.table.Row({
+                //             cells: [
+                //                 new sap.m.ObjectStatus({
+                //                     icon: "sap-icon://sys-enter-2",
+                //                     text: "{Statut}",
+                //                     state: "Success"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{Article}"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{Description}"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{DateDocument}"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{LotDeControle}"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{LotFournisseur}"
+                //                 }),
+                //                 new sap.m.Text({
+                //                     text: "{NomFournisseur}"
+                //                 })
+                //             ]
+                //         })
+                //     },
+                //     columns: [
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>Statut}",
+                //             template: new sap.m.ObjectStatus().bindProperty("text", "Statut"),
+                //             width: '3rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>Article}",
+                //             template: new sap.m.Text().bindProperty("text", "Article"),
+                //             sortProperty: 'Article',
+                //             filterProperty: 'Article',
+                //             width: '11rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>Description}",
+                //             template: new sap.m.Text().bindProperty("text", "Description"),
+                //             sortProperty: 'Description',
+                //             filterProperty: 'Description',
+                //             width: '11rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>DateDocument}",
+                //             template: new sap.m.Text().bindProperty("text", "DateDocument"),
+                //             sortProperty: 'DateDocument',
+                //             filterProperty: 'DateDocument',
+                //             width: '11rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>LotDeControle}",
+                //             template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+                //             sortProperty: 'LotDeControle',
+                //             filterProperty: 'LotDeControle',
+                //             width: '11rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>LotFournisseur}",
+                //             template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+                //             sortProperty: 'LotFournisseur',
+                //             filterProperty: 'LotFournisseur',
+                //             width: '11rem'
+                //         }),
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>NomFournisseur}",
+                //             template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
+                //             sortProperty: 'NomFournisseur',
+                //             filterProperty: 'NomFournisseur',
+                //             width: '11rem'
+                //         })
+                //     ]
+                // });
+                // Create Table
+                // const oTable = new sap.ui.table.Table({
+                //     id: "idMef3",
+                //     visibleRowCount: 6,
+                //     selectionMode: sap.ui.table.SelectionMode.MultiToggle,
+                //     rows: {
+                //         path: "/MEF3",
+                //         template: new sap.ui.table.Row({
+                //             cells: [
+                //                 new sap.ui.core.Icon({
+                //                     // icon: "sap-icon://sys-enter-2",
+                //                     path: "{Statut}",
+                //                     formatter: function (value) {
+                //                         return (value == 'V') ? "sap-icon://accept" : "sap-icon://alert";
+                //                     }
+                //                 })
+                //             ]
+                //         })
+                //     },
+                //     columns: [
+                //         new sap.ui.table.Column({
+                //             label: "{i18n>Statut}",
+                //             template: new sap.ui.core.Icon().bindProperty("path", "Statut"),
+                //             width: '3rem'
+                //         })
+                //     ]
+                // });
+
+                const oTable = new sap.ui.table.Table({
+                    id: "idMef3",
+                    visibleRowCount: 6,
+                    selectionMode: sap.ui.table.SelectionMode.MultiToggle,
+                    rows: {
+                        path: "/MEF3",
+                        template: new sap.ui.table.Row({
+                            cells: [
+                                new sap.ui.core.Icon({
+                                    color:  {
+                                        path: "Statut",
+                                        formatter: function (value) {
+                                            if (value == 'V') {
+                                                return 'Positive'; // Set color to positive
+                                            } else if(value == 'J'){
+                                                return 'Critical'
+                                            }
+                                             else {
+                                                return 'Negative'; // Default color
+                                            }
+                                        }
+                                    },
+                                    src: {
+                                        path: "Statut",
+                                        formatter: function (value) {
+                                            if (value == 'V') {
+                                                return 'sap-icon://sys-enter-2'; // Set color to positive
+                                            } else if(value == 'J'){
+                                                return 'sap-icon://alert'
+                                            }
+                                             else  {
+                                                return 'sap-icon://error'; // Default color
+                                            }
+                                        }
+                                    }
+                                })
+                            ]
+                        })
+                    },
+                    columns: [
+                        new sap.ui.table.Column({
+                            label: "{i18n>Statut}",
+                            template: new sap.ui.core.Icon({
+                                color:  {
+                                    path: "Statut",
+                                    formatter: function (value) {
+                                        if (value == 'V') {
+                                            return 'Positive'; // Set color to positive
+                                        } else if(value == 'J'){
+                                            return 'Critical'
+                                        }
+                                         else {
+                                            return 'Negative'; // Default color
+                                        }
+                                    }
+                                },
+                                src: {
+                                    path: "Statut",
+                                    formatter: function (value) {
+                                        if (value == 'V') {
+                                            return 'sap-icon://sys-enter-2'; // Set color to positive
+                                        } else if(value == 'J'){
+                                            return 'sap-icon://alert'
+                                        }
+                                         else {
+                                            return 'sap-icon://error'; // Default color
+                                        }
+                                    }
+                                }
+                            }),
+                            width: '3rem'
+                        })
+                    ]
+                });
+                
+                const oModel = new sap.ui.model.json.JSONModel();
+                oModel.setData({ 'MEF3': filteredData });
+
+                // Binding
+                oTable.setModel(oModel);
+
+                // Create a Vertical Layout (VBox) to stack the OverflowToolbar and Table
+                const oVBox = new sap.m.VBox({
+                    id: 'Vbox3',
                     items: [oToolbar, oTable]
                 });
 
