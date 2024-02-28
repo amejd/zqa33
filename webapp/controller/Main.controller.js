@@ -79,7 +79,7 @@ sap.ui.define([
                                 pattern: "dd-MM-yyyy"
                             });
 
-                            const formattedData = oData.results.map(item => {
+                            let formattedData = oData.results.map(item => {
                                 // console.log(item);
                                 if (item.DateDecisionOrig != null) {
                                     item.DateDecisionOrig = oDateFormat.format(item.DateDecisionOrig);
@@ -160,6 +160,17 @@ sap.ui.define([
                                     sap.ui.getCore().byId("Toolbar3").destroy()
                                     sap.ui.getCore().byId("Vbox3").destroy()
                                 }
+                                // Remove duplicate entries
+                                formattedData = formattedData.map(item => ({
+                                    Statut: item.Statut,
+                                    Article: item.Article,
+                                    Description: item.Description,
+                                    DateDocument: item.DateDocument,
+                                    LotDeControle: item.LotDeControle,
+                                    LotFournisseur: item.LotFournisseur,
+                                    NomFournisseur: item.NomFournisseur
+                                }));
+                                formattedData = that._onRemoveDuplicates(formattedData)
                                 oPage.addContent(that._onGetMEF33(formattedData))
                             }
                             else {
@@ -653,123 +664,11 @@ sap.ui.define([
                     type: "Accept",
                     icon: "sap-icon://excel-attachment",
                     press: function () {
-                        that._onExtractData(2, 'idMef3')
+                        that._onExtractData(3, 'idMef3')
                     }
                 }));
 
                 // Create Table
-                // const oTable = new sap.ui.table.Table({
-                //     id: "idMef3",
-                //     visibleRowCount: 6,
-                //     selectionMode: sap.ui.table.SelectionMode.MultiToggle,
-                //     rows: {
-                //         path: "/MEF3",
-                //         template: new sap.ui.table.Row({
-                //             cells: [
-                //                 new sap.m.ObjectStatus({
-                //                     icon: "sap-icon://sys-enter-2",
-                //                     text: "{Statut}",
-                //                     state: "Success"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{Article}"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{Description}"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{DateDocument}"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{LotDeControle}"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{LotFournisseur}"
-                //                 }),
-                //                 new sap.m.Text({
-                //                     text: "{NomFournisseur}"
-                //                 })
-                //             ]
-                //         })
-                //     },
-                //     columns: [
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>Statut}",
-                //             template: new sap.m.ObjectStatus().bindProperty("text", "Statut"),
-                //             width: '3rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>Article}",
-                //             template: new sap.m.Text().bindProperty("text", "Article"),
-                //             sortProperty: 'Article',
-                //             filterProperty: 'Article',
-                //             width: '11rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>Description}",
-                //             template: new sap.m.Text().bindProperty("text", "Description"),
-                //             sortProperty: 'Description',
-                //             filterProperty: 'Description',
-                //             width: '11rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>DateDocument}",
-                //             template: new sap.m.Text().bindProperty("text", "DateDocument"),
-                //             sortProperty: 'DateDocument',
-                //             filterProperty: 'DateDocument',
-                //             width: '11rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>LotDeControle}",
-                //             template: new sap.m.Text().bindProperty("text", "LotDeControle"),
-                //             sortProperty: 'LotDeControle',
-                //             filterProperty: 'LotDeControle',
-                //             width: '11rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>LotFournisseur}",
-                //             template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
-                //             sortProperty: 'LotFournisseur',
-                //             filterProperty: 'LotFournisseur',
-                //             width: '11rem'
-                //         }),
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>NomFournisseur}",
-                //             template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
-                //             sortProperty: 'NomFournisseur',
-                //             filterProperty: 'NomFournisseur',
-                //             width: '11rem'
-                //         })
-                //     ]
-                // });
-                // Create Table
-                // const oTable = new sap.ui.table.Table({
-                //     id: "idMef3",
-                //     visibleRowCount: 6,
-                //     selectionMode: sap.ui.table.SelectionMode.MultiToggle,
-                //     rows: {
-                //         path: "/MEF3",
-                //         template: new sap.ui.table.Row({
-                //             cells: [
-                //                 new sap.ui.core.Icon({
-                //                     // icon: "sap-icon://sys-enter-2",
-                //                     path: "{Statut}",
-                //                     formatter: function (value) {
-                //                         return (value == 'V') ? "sap-icon://accept" : "sap-icon://alert";
-                //                     }
-                //                 })
-                //             ]
-                //         })
-                //     },
-                //     columns: [
-                //         new sap.ui.table.Column({
-                //             label: "{i18n>Statut}",
-                //             template: new sap.ui.core.Icon().bindProperty("path", "Statut"),
-                //             width: '3rem'
-                //         })
-                //     ]
-                // });
-
                 const oTable = new sap.ui.table.Table({
                     id: "idMef3",
                     visibleRowCount: 6,
@@ -779,15 +678,15 @@ sap.ui.define([
                         template: new sap.ui.table.Row({
                             cells: [
                                 new sap.ui.core.Icon({
-                                    color:  {
+                                    color: {
                                         path: "Statut",
                                         formatter: function (value) {
                                             if (value == 'V') {
                                                 return 'Positive'; // Set color to positive
-                                            } else if(value == 'J'){
+                                            } else if (value == 'J') {
                                                 return 'Critical'
                                             }
-                                             else {
+                                            else {
                                                 return 'Negative'; // Default color
                                             }
                                         }
@@ -797,14 +696,32 @@ sap.ui.define([
                                         formatter: function (value) {
                                             if (value == 'V') {
                                                 return 'sap-icon://sys-enter-2'; // Set color to positive
-                                            } else if(value == 'J'){
+                                            } else if (value == 'J') {
                                                 return 'sap-icon://alert'
                                             }
-                                             else  {
+                                            else {
                                                 return 'sap-icon://error'; // Default color
                                             }
                                         }
                                     }
+                                }),
+                                new sap.m.Text({
+                                    text: "{Article}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{Description}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{DateDocument}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{LotDeControle}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{LotFournisseur}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{NomFournisseur}"
                                 })
                             ]
                         })
@@ -813,15 +730,15 @@ sap.ui.define([
                         new sap.ui.table.Column({
                             label: "{i18n>Statut}",
                             template: new sap.ui.core.Icon({
-                                color:  {
+                                color: {
                                     path: "Statut",
                                     formatter: function (value) {
                                         if (value == 'V') {
                                             return 'Positive'; // Set color to positive
-                                        } else if(value == 'J'){
+                                        } else if (value == 'J') {
                                             return 'Critical'
                                         }
-                                         else {
+                                        else {
                                             return 'Negative'; // Default color
                                         }
                                     }
@@ -831,20 +748,62 @@ sap.ui.define([
                                     formatter: function (value) {
                                         if (value == 'V') {
                                             return 'sap-icon://sys-enter-2'; // Set color to positive
-                                        } else if(value == 'J'){
+                                        } else if (value == 'J') {
                                             return 'sap-icon://alert'
                                         }
-                                         else {
+                                        else {
                                             return 'sap-icon://error'; // Default color
                                         }
                                     }
                                 }
                             }),
                             width: '3rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>Article}",
+                            template: new sap.m.Text().bindProperty("text", "Article"),
+                            sortProperty: 'Article',
+                            filterProperty: 'Article',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>Description}",
+                            template: new sap.m.Text().bindProperty("text", "Description"),
+                            sortProperty: 'Description',
+                            filterProperty: 'Description',
+                            width: '15rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>DateDocument}",
+                            template: new sap.m.Text().bindProperty("text", "DateDocument"),
+                            sortProperty: 'DateDocument',
+                            filterProperty: 'DateDocument',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>LotDeControle}",
+                            template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+                            sortProperty: 'LotDeControle',
+                            filterProperty: 'LotDeControle',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>LotFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+                            sortProperty: 'LotFournisseur',
+                            filterProperty: 'LotFournisseur',
+                            width: '11rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>NomFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
+                            sortProperty: 'NomFournisseur',
+                            filterProperty: 'NomFournisseur',
+                            width: '15rem'
                         })
                     ]
                 });
-                
+
                 const oModel = new sap.ui.model.json.JSONModel();
                 oModel.setData({ 'MEF3': filteredData });
 
@@ -878,8 +837,10 @@ sap.ui.define([
                     aHyperlink.href = `data:${dataType}, ${htmlCode}`;
                     if (oMef == 1) {
                         aHyperlink.download = `${oResourceBundle.getText('fileMef1')}-${this._formatDate(new Date())}.xls`;
-                    } else {
+                    } else if (oMef == 2) {
                         aHyperlink.download = `${oResourceBundle.getText('fileMef2')}-${this._formatDate(new Date())}.xls`;
+                    } else {
+                        aHyperlink.download = `${oResourceBundle.getText('fileMef3')}-${this._formatDate(new Date())}.xls`;
                     }
                     //triggering the function
                     aHyperlink.click();
@@ -991,10 +952,10 @@ sap.ui.define([
                             </table>
                         </div>`
 
-
+                    return this._onGetHTMLFullCode(htmlCode)
                 }
 
-                if (pMef == 2) {
+                else if (pMef == 2) {
                     title = oResourceBundle.getText("titleMef2");
                     htmlCode = `
                             <div id="allfile">
@@ -1058,9 +1019,70 @@ sap.ui.define([
                             </tbody>
                             </table>
                         </div>`
+
+                    return this._onGetHTMLFullCode(htmlCode)
+                } else if (pMef == 3) {
+                    title = oResourceBundle.getText("titleMEF3");
+                    htmlCode = `
+                            <div id="allfile">
+                            <div class="container">
+                            <h2>${title}</h2>
+                            <p style="margin-bottom: 0px;"><b>Date&nbsp;:</b>&nbsp;${pDate}</p>
+                            ${sEnstehdat != null ? `<p style="margin-top: 1px; margin-bottom: 2px;"><b>Selection&nbsp;:</b>&nbsp;${this._formatDate(sEnstehdat.low)} - ${this._formatDate(sEnstehdat.high)}</p>` : ''}
+                            <p style="margin-top: 1px;margin-bottom: 0px;"><b>Utilisateur&nbsp;:</b>&nbsp;${user}</p>
+                            </div>
+                            <p></p>
+                            <table id="customersTable" style="font-family:arial, sans-serif;border: 1px solid black; border-collapse: collapse; margin-top: 20px;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5em; border: 1px solid black;">Statut</th>
+                                    <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Article")}</th>
+                                    <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("Description")}</th>
+                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DateDocument")}</th>
+                                    <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotDeControle")}</th>
+                                    <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotFournisseur")}</th>
+                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("NomFournisseur")}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${pData && pData.map((e) => {
+                        return (
+                            `
+                                            <tr>
+                                                
+                                                <td style="border: 1px solid black;text-align:center; position: relative;">
+                                                <span style="font-size:20px;">
+                                                    <span style="font-size: 20px;">
+                                                        ${e.Statut == 'R' ? `<span style='color: red; margin:0; padding:0;'>●</span>` : `<span style='color: gray;margin:0; padding:0;'>●</span>`}
+                                                        ${e.Statut == 'J' ? `<span style='color: orange;'>●</span>` : `<span style='color: gray;'>●</span>`}
+                                                        ${e.Statut == 'V' ? `<span style='color: green;'>●</span>` : `<span style='color: gray;'>●</span>`}
+                                                    </span>
+                                                </span>
+                                                </td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.DateDocument}</td>
+                                                <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
+                                            </tr>
+                                            `
+                        )
+                    }).join('')
+
+                        }
+                                
+                            </tbody>
+                            </table>
+                        </div>`
+
+                    return this._onGetHTMLFullCode(htmlCode)
+                } else {
+                    alert('Not implemented ! ')
+                    return;
                 }
 
-                return this._onGetHTMLFullCode(htmlCode)
+
 
             },
             _onGetHTMLFullCode: function (pHtmlCode) {
@@ -1072,7 +1094,7 @@ sap.ui.define([
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>ss</title>
+                    <title>Excel ZQA33</title>
                     </head>
                     <body>
                         ${pHtmlCode}
@@ -1082,6 +1104,22 @@ sap.ui.define([
 
                 fullHTML = fullHTML.replace(/ /g, "%20");
                 return fullHTML
+            },
+            _onRemoveDuplicates: function (items) {
+                const uniqueIds = [];
+                const uniqueData = items.filter(element => {
+                    // Check If the uniqueIds array contains this item
+                    const isDuplicate = uniqueIds.includes(element["LotDeControle"]);
+                    // If it does not exists, push it and continue
+                    if (!isDuplicate) {
+                        uniqueIds.push(element["LotDeControle"]);
+                        return true;
+                    }
+                    // If it exists, break
+                    return false;
+                });
+
+                return uniqueData;
             }
         });
     });
