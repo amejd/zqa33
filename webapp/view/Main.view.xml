@@ -12,14 +12,17 @@
             basicSearchFieldName="LotDeControle"
             persistencyKey="UniqueAndStablePersistencyKey">
             <sfb:controlConfiguration>
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration1" key="LotDeControle" label="{i18n>LotDeControle}" visibleInAdvancedArea="true" filterType="interval" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration2" key="Article" label="{i18n>Article}" visibleInAdvancedArea="true" filterType="interval" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration3" key="Division"  label="{i18n>Division}" visibleInAdvancedArea="true" filterType="single" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration5" key="Fournisseur"  label="{i18n>Fournisseur}" visibleInAdvancedArea="true" filterType="single" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration9" key="DateLclCreationLot" label="{i18n>DteCrLot}" visibleInAdvancedArea="true" filterType="interval" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration8" key="FinControle" label="{i18n>DteFinCtl}" visibleInAdvancedArea="true" filterType="interval" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration6" key="Mef" label="Mise en forme" mandatory="mandatory" visibleInAdvancedArea="true" filterType="single" />
-                <sfb:ControlConfiguration id="_IDGenControlConfiguration7" key="CategorieClasse" label="{i18n>CtgParCls}"  visibleInAdvancedArea="true" filterType="single" />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration1" key="LotDeControle" label="{i18n>LotDeControle}" visibleInAdvancedArea="true" filterType="interval" index='1' />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration2" key="Article" label="{i18n>Article}" visibleInAdvancedArea="true" filterType="interval" index='2' />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration3" key="Division"  label="{i18n>Division}" visibleInAdvancedArea="true" filterType="single" index='3' />
+                 <sfb:ControlConfiguration id="_IDGenControlConfiguration10" key="LotFournisseur"  label="{i18n>LotFournisseur}" visibleInAdvancedArea="true" filterType="single" index='6'/>
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration5" key="Fournisseur"  label="{i18n>Fournisseur}" visibleInAdvancedArea="true" filterType="single" index='7'/>
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration9" key="DateLclCreationLot" label="{i18n>DteCrLot}" visibleInAdvancedArea="true" filterType="interval" index='4' />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration8" key="FinControle" label="{i18n>DteFinCtl}" visibleInAdvancedArea="true" filterType="interval" index='5' />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration6" key="Mef" label="Mise en forme" mandatory="mandatory" visibleInAdvancedArea="true" filterType="single" index='8'/>
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration7" key="CategorieClasse" label="{i18n>CtgParCls}"  visibleInAdvancedArea="true" filterType="single" index='9' />
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration11" key="Statut" label="Statut" visibleInAdvancedArea="true" filterType="single" index='10'/>
+                <sfb:ControlConfiguration id="_IDGenControlConfiguration12" key="qmata" label="{i18n>sQmata}" visibleInAdvancedArea="true" filterType="single" index='11'/>
             </sfb:controlConfiguration>
         </sfb:SmartFilterBar>
          <html:a id="hiddenLink"></html:a> 

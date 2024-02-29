@@ -23,18 +23,23 @@ sap.ui.define([
                     oDialog.open();
                     // Get the values
                     const sPrueflos = oSmartTableFilter.getFilterData().LotDeControle;
+                    const sLotFournisseur = oSmartTableFilter.getFilterData().LotFournisseur;
                     const sMatnr = oSmartTableFilter.getFilterData().Article;
                     const sWerk = oSmartTableFilter.getFilterData().Division;
                     const sLifnr = oSmartTableFilter.getFilterData().Fournisseur;
                     const sMef = oSmartTableFilter.getFilterData().Mef;
+                    const sStatut = oSmartTableFilter.getFilterData().Statut;
+                    const sQmata = oSmartTableFilter.getFilterData().qmata;          
                     const sPaendterm = oSmartTableFilter.getFilterData().FinControle;
                     const sEnstehdat = oSmartTableFilter.getFilterData().DateLclCreationLot;
-
-                    // debugger;
+                    
                     let Filters = new Array();
                     // Create Filters
                     sPrueflos && Filters.push(
                         that._onGetFilters(sPrueflos, "LotDeControle")
+                    )
+                    sLotFournisseur && Filters.push(
+                        that._onGetFilters(sLotFournisseur, "LotFournisseur")
                     )
                     sMatnr && Filters.push(
                         that._onGetFilters(sMatnr, "Article")
@@ -51,7 +56,12 @@ sap.ui.define([
                     sEnstehdat && Filters.push(
                         that._onGetFiltersDate(sEnstehdat, "DateLclCreationLot")
                     )
-                    // debugger
+                    sStatut &&  Filters.push(
+                        that._onGetFilters(sStatut, "Statut")
+                    )
+                    sQmata && Filters.push(
+                        that._onGetFilters(sQmata, "qmata")
+                    )
                     const oModel = that.getOwnerComponent().getModel()
                     // debugger;
                     oModel.read('/ZCDS_CN_QALS', {
@@ -168,7 +178,9 @@ sap.ui.define([
                                     DateDocument: item.DateDocument,
                                     LotDeControle: item.LotDeControle,
                                     LotFournisseur: item.LotFournisseur,
-                                    NomFournisseur: item.NomFournisseur
+                                    NomFournisseur: item.NomFournisseur,
+                                    Division: item.Division,
+                                    qmata: item.qmata
                                 }));
                                 formattedData = that._onRemoveDuplicates(formattedData)
                                 oPage.addContent(that._onGetMEF33(formattedData))
@@ -188,7 +200,6 @@ sap.ui.define([
                 if (typeof sValueSFB === 'number') {
                     sValueSFB = JSON.stringify(sValueSFB)
                 }
-                // console.log(fieldName);
 
                 if (typeof sValueSFB === 'object') {
                     if (sValueSFB.low.split('-').length == 2) {
@@ -712,6 +723,12 @@ sap.ui.define([
                                     text: "{Description}"
                                 }),
                                 new sap.m.Text({
+                                    text: "{Division}"
+                                }),
+                                new sap.m.Text({
+                                    text: "{NomFournisseur}"
+                                }),
+                                new sap.m.Text({
                                     text: "{DateDocument}"
                                 }),
                                 new sap.m.Text({
@@ -721,7 +738,7 @@ sap.ui.define([
                                     text: "{LotFournisseur}"
                                 }),
                                 new sap.m.Text({
-                                    text: "{NomFournisseur}"
+                                    text: "{qmata}"
                                 })
                             ]
                         })
@@ -774,6 +791,20 @@ sap.ui.define([
                             width: '15rem'
                         }),
                         new sap.ui.table.Column({
+                            label: "{i18n>Division}",
+                            template: new sap.m.Text().bindProperty("text", "Division"),
+                            sortProperty: 'Division',
+                            filterProperty: 'Division',
+                            width: '10rem'
+                        }),
+                        new sap.ui.table.Column({
+                            label: "{i18n>NomFournisseur}",
+                            template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
+                            sortProperty: 'NomFournisseur',
+                            filterProperty: 'NomFournisseur',
+                            width: '15rem'
+                        }),
+                        new sap.ui.table.Column({
                             label: "{i18n>DateDocument}",
                             template: new sap.m.Text().bindProperty("text", "DateDocument"),
                             sortProperty: 'DateDocument',
@@ -795,11 +826,11 @@ sap.ui.define([
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
-                            label: "{i18n>NomFournisseur}",
-                            template: new sap.m.Text().bindProperty("text", "NomFournisseur"),
-                            sortProperty: 'NomFournisseur',
-                            filterProperty: 'NomFournisseur',
-                            width: '15rem'
+                            label: "{i18n>qmata}",
+                            template: new sap.m.Text().bindProperty("text", "qmata"),
+                            sortProperty: 'qmata',
+                            filterProperty: 'qmata',
+                            width: '11rem'
                         })
                     ]
                 });
@@ -1038,10 +1069,12 @@ sap.ui.define([
                                     <th style="width: 5em; border: 1px solid black;">Statut</th>
                                     <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Article")}</th>
                                     <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("Description")}</th>
+                                    <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Division")}</th>
+                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("NomFournisseur")}</th>
                                     <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DateDocument")}</th>
                                     <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotDeControle")}</th>
-                                    <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("LotFournisseur")}</th>
-                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("NomFournisseur")}</th>
+                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("LotFournisseur")}</th>
+                                    <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("qmata")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1061,10 +1094,12 @@ sap.ui.define([
                                                 </td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.Division}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.DateDocument}</td>
                                                 <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.qmata}</td>
                                             </tr>
                                             `
                         )
