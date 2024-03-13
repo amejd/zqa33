@@ -29,26 +29,14 @@ sap.ui.define([
                     const sLifnr = oSmartTableFilter.getFilterData().Fournisseur;
                     const sMef = oSmartTableFilter.getFilterData().Mef;
                     const sStatut = oSmartTableFilter.getFilterData().Statut;
-                    const sQmata = oSmartTableFilter.getFilterData().qmata;          
+                    const sQmata = oSmartTableFilter.getFilterData().qmata;
                     const sPaendterm = oSmartTableFilter.getFilterData().FinControle;
                     const sEnstehdat = oSmartTableFilter.getFilterData().DateLclCreationLot;
-                    
+
                     let Filters = new Array();
                     // Create Filters
-                    sPrueflos && Filters.push(
-                        that._onGetFilters(sPrueflos, "LotDeControle")
-                    )
                     sLotFournisseur && Filters.push(
                         that._onGetFilters(sLotFournisseur, "LotFournisseur")
-                    )
-                    sMatnr && Filters.push(
-                        that._onGetFilters(sMatnr, "Article")
-                    )
-                    sWerk && Filters.push(
-                        that._onGetFilters(sWerk, "Division")
-                    )
-                    sLifnr && Filters.push(
-                        that._onGetFilters(sLifnr, "Fournisseur")
                     )
                     sPaendterm && Filters.push(
                         that._onGetFiltersDate(sPaendterm, "FinControle")
@@ -56,12 +44,40 @@ sap.ui.define([
                     sEnstehdat && Filters.push(
                         that._onGetFiltersDate(sEnstehdat, "DateLclCreationLot")
                     )
-                    sStatut &&  Filters.push(
-                        that._onGetFilters(sStatut, "Statut")
-                    )
-                    sQmata && Filters.push(
-                        that._onGetFilters(sQmata, "qmata")
-                    )
+                    // Multiple FilterType - below
+                    if (sStatut) {
+                        sStatut.items.map((e) => {
+                            Filters.push(that._onGetFilters(e.key, "Statut"))
+                        })
+                    }
+                    if (sLifnr) {
+                        sLifnr.items.map((e) => {
+                            Filters.push(that._onGetFilters(e.key, "Fournisseur"))
+                        })
+                    }
+                    if (sWerk) {
+                        sWerk.items.map((e) => {
+                            Filters.push(that._onGetFilters(e.key, "Division"))
+                        })
+                    }
+                    if (sQmata) {
+                        sQmata.items.map((e) => {
+                            Filters.push(that._onGetFilters(e.key, "qmata"))
+                        })
+                    }
+                    if (sPrueflos) {
+                        sPrueflos.items.map((e) => {
+                            Filters.push(that._onGetFilters(e.key, "LotDeControle"))
+                        }
+                        )
+                    }
+                    if(sMatnr){
+                       sMatnr.items.map((e)=>{
+                        Filters.push(
+                            that._onGetFilters(e.key, "Article")
+                        )
+                       })
+                    }
                     const oModel = that.getOwnerComponent().getModel()
                     // debugger;
                     oModel.read('/ZCDS_CN_QALS', {
@@ -202,6 +218,7 @@ sap.ui.define([
                 }
 
                 if (typeof sValueSFB === 'object') {
+
                     if (sValueSFB.low.split('-').length == 2) {
                         const oFilterBT = new Filter(fieldName, FilterOperator.BT, sValueSFB.low.split('-')[0], sValueSFB.low.split('-')[1]);
                         return oFilterBT;
@@ -215,6 +232,8 @@ sap.ui.define([
                     const oFilterEq = new Filter(fieldName, FilterOperator.EQ, sValueSFB);
                     return oFilterEq;
                 }
+
+
             },
             _onGetFiltersDate: function (sValueDate, fieldName) {
                 // console.log(sValueDate);
@@ -1068,7 +1087,7 @@ sap.ui.define([
                                 <tr>
                                     <th style="width: 5em; border: 1px solid black;">Statut</th>
                                     <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Article")}</th>
-                                    <th style="width: 15em; border: 1px solid black;">${oResourceBundle.getText("Description")}</th>
+                                    <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("Description")}</th>
                                     <th style="width: 10em; border: 1px solid black;">${oResourceBundle.getText("Division")}</th>
                                     <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("NomFournisseur")}</th>
                                     <th style="width: 20em; border: 1px solid black;">${oResourceBundle.getText("DateDocument")}</th>
@@ -1086,19 +1105,19 @@ sap.ui.define([
                                                 <td style="border: 1px solid black;text-align:center; position: relative;">
                                                 <span style="font-size:20px;">
                                                     <span style="font-size: 20px;">
-                                                        ${e.Statut == 'R' ? `<span style='color: red; margin:0; padding:0;'>●</span>` : `<span style='color: gray;margin:0; padding:0;'>●</span>`}
-                                                        ${e.Statut == 'J' ? `<span style='color: orange;'>●</span>` : `<span style='color: gray;'>●</span>`}
-                                                        ${e.Statut == 'V' ? `<span style='color: green;'>●</span>` : `<span style='color: gray;'>●</span>`}
+                                                        ${e.Statut == 'R' ? `<span style='color: red; margin:0; padding:0;'>${oResourceBundle.getText("ExcelIcon")}</span>` : `<span style='color: gray;margin:0; padding:0;'>${oResourceBundle.getText("ExcelIcon")}</span>`}
+                                                        ${e.Statut == 'J' ? `<span style='color: orange;'>${oResourceBundle.getText("ExcelIcon")}</span>` : `<span style='color: gray;'>${oResourceBundle.getText("ExcelIcon")}</span>`}
+                                                        ${e.Statut == 'V' ? `<span style='color: green;'>${oResourceBundle.getText("ExcelIcon")}</span>` : `<span style='color: gray;'>${oResourceBundle.getText("ExcelIcon")}</span>`}
                                                     </span>
                                                 </span>
                                                 </td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.Division}</td>
+                                                <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.DateDocument}</td>
                                                 <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
-                                                <td style="border: 1px solid black;text-align:center;">${e.NomFournisseur}</td>
                                                 <td style="border: 1px solid black;text-align:center;">${e.qmata}</td>
                                             </tr>
                                             `
