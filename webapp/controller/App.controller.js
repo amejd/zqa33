@@ -6,7 +6,7 @@ sap.ui.define(
       "use strict";
   
       return BaseController.extend("zqa33.controller.App", {
-        onInit: function() {
+        onInit: function() {  
         }
       });
     }
