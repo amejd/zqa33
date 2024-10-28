@@ -25,7 +25,9 @@
       "env": {
         "DEBUG": "--inspect",
         "FIORI_TOOLS_URL_PARAMS": "sap-client=110&sap-ui-xx-viewCache=false",
-        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/zqa33\"}"
+        "run.config": "{\"handlerId\":\"fiori_tools\",\"runnableId\":\"/home/user/projects/zqa33\"}",
+        "FIORI_TOOLS_UI5_VERSION": "1.129.2",
+        "FIORI_TOOLS_UI5_URI": "https://ui5.sap.com"
       }
     },
     {

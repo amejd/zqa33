@@ -348,9 +348,12 @@ sap.ui.define([
                         }),
                         new sap.ui.table.Column({
                             label: "{i18n>NumArticleFournisseur}",
-                            template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
-                            sortProperty: 'NumArticleFournisseur',
-                            filterProperty: 'NumArticleFournisseur',
+                        //    template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
+                        //    sortProperty: 'NumArticleFournisseur',
+                        //    filterProperty: 'NumArticleFournisseur',
+                            template: new sap.m.Text().bindProperty("text", "Fournisseur"),
+                            sortProperty: 'Fournisseur',
+                            filterProperty: 'Fournisseur',                        
                             width: '11rem'
                         }),
                         new sap.ui.table.Column({
