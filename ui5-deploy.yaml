@@ -16,14 +16,14 @@ builder:
     - name: deploy-to-abap
       afterTask: generateCachebusterInfo
       configuration:
-        log: 4
         target:
           destination: hqsd1-100
           url: http://hqsd1-100:9000
+          client: '100'
         app:
           name: ZQA33
-          description: ZQA33/Fiori
+          description: ZQA33(FIORI) Correction bug Fournisseur
           package: ZPA_QM_PACKAGE
-          transport: SD1K901796
+          transport: SD1K905801
         exclude:
           - /test/

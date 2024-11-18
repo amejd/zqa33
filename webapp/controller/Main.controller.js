@@ -347,7 +347,7 @@ sap.ui.define([
                             width: '25rem'
                         }),
                         new sap.ui.table.Column({
-                            label: "{i18n>NumArticleFournisseur}",
+                            label: "{i18n>CodeFournisseur}",
                         //    template: new sap.m.Text().bindProperty("text", "NumArticleFournisseur"),
                         //    sortProperty: 'NumArticleFournisseur',
                         //    filterProperty: 'NumArticleFournisseur',
@@ -435,7 +435,8 @@ sap.ui.define([
 
                 return oVBox;
             },
-            _onGetMEF22: function (filteredData) {
+
+            _onGetMEF22Old: function (filteredData) {
                 const that = this
                 // Create the OverflowToolbar
                 const oToolbar = new sap.m.OverflowToolbar({
@@ -666,6 +667,260 @@ sap.ui.define([
 
                 return oVBox;
             },
+
+// MELMOUAFIK - 18.11.2024
+_onGetMEF22: function (filteredData) {
+    const that = this
+    // Create the OverflowToolbar
+    const oToolbar = new sap.m.OverflowToolbar({
+        id: 'Toolbar2',
+        design: "Transparent",
+        height: "3rem"
+    });
+
+    const numberOfRecords = filteredData.length
+    oToolbar.addContent(new sap.m.Title({
+        id: 'Title2',
+        text: "{i18n>titleMEF2}" + `  - (${numberOfRecords} ${this.getOwnerComponent().getModel("i18n").getResourceBundle().getText('Etr')})`
+    }));
+    oToolbar.addContent(new sap.m.ToolbarSpacer({
+        id: '_IDGenToolbarSpacer1'
+    }));
+
+    oToolbar.addContent(new sap.m.Button({
+        id: '_IDGenButton2',
+        icon: "sap-icon://refresh",
+        press: function () {
+            that.onClearAllFilters('idMef2')
+        }
+    }));
+
+    oToolbar.addContent(new sap.m.Button({
+        id: 'ButtonMef',
+        type: "Accept",
+        icon: "sap-icon://excel-attachment",
+        press: function () {
+            that._onExtractData(2, 'idMef2')
+        }
+    }));
+
+// Create Table
+const oTable = new sap.ui.table.Table({
+    id: "idMef2",
+    visibleRowCount: 6,
+    selectionMode: sap.ui.table.SelectionMode.MultiToggle,
+    rows: {
+        path: "/MEF1", 
+        template: new sap.ui.table.Row({
+            cells: [
+                new sap.m.Text({
+                    text: "{LotDeControle}"
+                }),
+                new sap.m.Text({
+                    text: "{LotFournisseur}"
+                }),
+                new sap.m.Text({
+                    text: "{Lot}"
+                }),
+                new sap.m.Text({
+                    text: "{Article}"
+                }),
+                new sap.m.Text({
+                    text: "{Description}"
+                }),
+                new sap.m.Text({
+                    text: "{Fournisseur}"
+                }),
+                new sap.m.Text({
+                    text: "{Division}"
+                }),
+                new sap.m.Text({
+                    text: "{QteLotControle} {UniteQteBase}"
+                }),
+                new sap.m.Text({
+                    text: "{DecisionUtiOrig}"
+                }),
+                new sap.m.Text({
+                    text: "{DecisionUtiModif}"
+                }),
+                new sap.m.Text({
+                    text: "{DateDecisionOrig}"
+                }),
+                new sap.m.Text({
+                    text: "{DateUtiModifiee}"
+                }),
+                new sap.m.Text({
+                    text: "{Utilisateur}"
+                }),
+                new sap.m.Text({
+                    text: "{lmengezub}"
+                }),
+                new sap.m.Text({
+                    text: "{lmenge01}"
+                }),
+                new sap.m.Text({
+                    text: "{lmenge04}"
+                }),
+                new sap.m.Text({
+                    text: "{lmenge03}"
+                }),
+                new sap.m.Text({
+                    text: "{StatutRecepCoA}"
+                })
+            ]
+        })
+    },
+    columns: [
+        new sap.ui.table.Column({
+            label: "{i18n>LotDeControle}",
+            template: new sap.m.Text().bindProperty("text", "LotDeControle"),
+            sortProperty: 'LotDeControle',
+            filterProperty: 'LotDeControle',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>LotFournisseur}",
+            template: new sap.m.Text().bindProperty("text", "LotFournisseur"),
+            sortProperty: 'LotFournisseur',
+            filterProperty: 'LotFournisseur',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Lot}",
+            template: new sap.m.Text().bindProperty("text", "Lot"),
+            sortProperty: 'Lot',
+            filterProperty: 'Lot',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Article}",
+            template: new sap.m.Text().bindProperty("text", "Article"),
+            sortProperty: 'Article',
+            filterProperty: 'Article',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Description}",
+            template: new sap.m.Text().bindProperty("text", "Description"),
+            sortProperty: 'Description',
+            filterProperty: 'Description',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>CodeFournisseur}",
+            template: new sap.m.Text().bindProperty("text", "Fournisseur"),
+            sortProperty: 'Fournisseur',
+            filterProperty: 'Fournisseur',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Division}",
+            template: new sap.m.Text().bindProperty("text", "Division"),
+            sortProperty: 'Division',
+            filterProperty: 'Division',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Quantite}",
+            template: new sap.m.Text().bindProperty("text", {
+                parts: ["QteLotControle", "UniteQteBase"],
+                formatter: function (QteLotControle, UniteQteBase) {
+                    return QteLotControle + " " + UniteQteBase;
+                }
+            }),
+            sortProperty: 'QteLotControle',
+            filterProperty: 'QteLotControle',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>DecisionUtiOrig}",
+            template: new sap.m.Text().bindProperty("text", "DecisionUtiOrig"),
+            sortProperty: 'DecisionUtiOrig',
+            filterProperty: 'DecisionUtiOrig',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>DecisionUtiModif}",
+            template: new sap.m.Text().bindProperty("text", "DecisionUtiModif"),
+            sortProperty: 'DecisionUtiModif',
+            filterProperty: 'DecisionUtiModif',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>DateDecisionOrig}",
+            template: new sap.m.Text().bindProperty("text", "DateDecisionOrig"),
+            sortProperty: 'DateDecisionOrig',
+            filterProperty: 'DateDecisionOrig',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>DateUtiModifiee}",
+            template: new sap.m.Text().bindProperty("text", "DateUtiModifiee"),
+            sortProperty: 'DateUtiModifiee',
+            filterProperty: 'DateUtiModifiee',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>Utilisateur}",
+            template: new sap.m.Text().bindProperty("text", "Utilisateur"),
+            sortProperty: 'Utilisateur',
+            filterProperty: 'Utilisateur',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>LMENGEZUB}",
+            template: new sap.m.Text().bindProperty("text", "lmengezub"),
+            sortProperty: 'lmengezub',
+            filterProperty: 'lmengezub',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>LMENGE01}",
+            template: new sap.m.Text().bindProperty("text", "lmenge01"),
+            sortProperty: 'lmenge01',
+            filterProperty: 'lmenge01',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>LMENGE04}",
+            template: new sap.m.Text().bindProperty("text", "lmenge04"),
+            sortProperty: 'lmenge04',
+            filterProperty: 'lmenge04',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>LMENGE03}",
+            template: new sap.m.Text().bindProperty("text", "lmenge03"),
+            sortProperty: 'lmenge03',
+            filterProperty: 'lmenge03',
+            width: '11rem'
+        }),
+        new sap.ui.table.Column({
+            label: "{i18n>StatutRecepCoA}",
+            template: new sap.m.Text().bindProperty("text", "StatutRecepCoA"),
+            sortProperty: 'StatutRecepCoA',
+            filterProperty: 'StatutRecepCoA',
+            width: '11rem'
+        })
+    ]
+});
+    const oModel = new sap.ui.model.json.JSONModel();
+    oModel.setData({ 'MEF1': filteredData });
+
+    // Binding
+    oTable.setModel(oModel);
+
+    // Create a Vertical Layout (VBox) to stack the OverflowToolbar and Table
+    const oVBox = new sap.m.VBox({
+        id: 'Vbox2',
+        items: [oToolbar, oTable]
+    });
+
+    return oVBox;
+},
+//END
+
+
             _onGetMEF33: function (filteredData) {
                 const that = this
                 // Create the OverflowToolbar
