@@ -22,7 +22,7 @@ builder:
           client: '100'
         app:
           name: ZQA33
-          description: ZQA33(FIORI) Correction bug Fournisseur
+          description: ZQA33 - Update mise en forme 2
           package: ZPA_QM_PACKAGE
           transport: SD1K905801
         exclude:

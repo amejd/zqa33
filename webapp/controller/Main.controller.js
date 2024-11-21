@@ -102,7 +102,8 @@ sap.ui.define([
 
                             // ConvertDate
                             const oDateFormat = DateFormat.getInstance({
-                                pattern: "dd-MM-yyyy"
+                                pattern: "dd-MM-yyyy" ,
+                                UTC: true
                             });
 
                             let formattedData = oData.results.map(item => {
