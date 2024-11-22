@@ -22,7 +22,7 @@ builder:
           client: '100'
         app:
           name: ZQA33
-          description: ZQA33 - Update mise en forme 2
+          description: ZQA33 - Correction pb Dates
           package: ZPA_QM_PACKAGE
           transport: SD1K905801
         exclude:

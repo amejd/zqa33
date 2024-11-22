@@ -1304,7 +1304,7 @@ const oTable = new sap.ui.table.Table({
                                             <tr>
                                             <td style="border: 1px solid black;text-align:center; mso-number-format:'\@';">${e.LotDeControle}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.LotFournisseur}</td>
-                                            <td style="border: 1px solid black;text-align:center;">${e.Lot}</td>
+                                            <td style="border: 1px solid black;text-align:center;mso-number-format:'\@';">${e.Lot}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.Article}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.Description}</td>
                                             <td style="border: 1px solid black;text-align:center;">${e.NumArticleFournisseur}</td>
